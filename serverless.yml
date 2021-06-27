@@ -1,4 +1,4 @@
-service: aws-node-rest-api-with-dynamodb-and-offline
+service: graphql-lambda
 
 frameworkVersion: ">=1.1.0 <=2.50.0"
 
@@ -36,49 +36,25 @@ provider:
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
 
 functions:
-  create:
-    handler: todos/create.create
+  graphql:
+    handler: handler.server
     events:
       - http:
-          path: todos
+          path: /
           method: post
           cors: true
 
-  list:
-    handler: todos/list.list
-    events:
-      - http:
-          path: todos
-          method: get
-          cors: true
-
-  get:
-    handler: todos/get.get
-    events:
-      - http:
-          path: todos/{id}
-          method: get
-          cors: true
-
-  update:
-    handler: todos/update.update
-    events:
-      - http:
-          path: todos/{id}
-          method: put
-          cors: true
-
-  delete:
-    handler: todos/delete.delete
-    events:
-      - http:
-          path: todos/{id}
-          method: delete
-          cors: true
+    playground:
+      handler: handler.playground
+      events:
+        - http:
+            path: /
+            method: get
+            cors: true
 
 resources:
   Resources:
-    TodosDynamoDbTable:
+    VehicleDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
       Properties:

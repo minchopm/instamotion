@@ -1,0 +1,19 @@
+type Vehicle {
+    id: String
+    name: String
+    price: Int
+}
+
+input AddVehicleInput {
+    id: String!
+    name: String!
+    price: Int!
+}
+
+type Query {
+    product(id: String): Vehicle!
+}
+
+type Mutation {
+    addProduct(input: AddProductInput): Vehicle!
+}
