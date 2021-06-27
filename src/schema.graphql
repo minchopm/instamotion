@@ -15,5 +15,5 @@ type Query {
 }
 
 type Mutation {
-    addProduct(input: AddProductInput): Vehicle!
+    addVehicle(input: AddVehicleInput): Vehicle!
 }
