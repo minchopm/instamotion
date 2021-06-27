@@ -100,6 +100,7 @@ No output
 curl -X POST "http://localhost:3000/products" -H "Content-Type: application/json" -d "{\"query\": \"mutation Mutation { name: createProduct(name: \"This is a todo mutation example\") { name quantity } }\"}"
 curl -X POST "http://localhost:3000/products" -H "Content-Type: application/json" -d "query={greeting(name: \"Jeremy\")}"
 
+curl -XPOST -H "Content-Type:application/graphql"  -d "query { listProducts { name id quantity } }" http://localhost:3000/products
+curl -X POST -H "Content-Type:application/graphql" -d "mutation {createProduct(name: \"Alabala\", quantity: 23) { id }}" "http://localhost:3000/products"
 
-curl -XPOST -H "Content-Type:application/graphql"  -d "query { listProducts { name } }" http://localhost:3000/products
 
