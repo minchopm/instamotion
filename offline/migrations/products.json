@@ -1,6 +1,6 @@
 {
     "Table": {
-        "TableName": "table graphql-lambda-dev",
+        "TableName": "products",
         "KeySchema": [
             {
                 "AttributeName": "id",
