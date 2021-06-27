@@ -96,3 +96,10 @@ curl -X DELETE -H "Content-Type:application/json" http://localhost:3000/todos/<i
 ```
 
 No output
+
+curl -X POST "http://localhost:3000/products" -H "Content-Type: application/json" -d "{\"query\": \"mutation Mutation { name: createProduct(name: \"This is a todo mutation example\") { name quantity } }\"}"
+curl -X POST "http://localhost:3000/products" -H "Content-Type: application/json" -d "query={greeting(name: \"Jeremy\")}"
+
+
+curl -XPOST -H "Content-Type:application/graphql"  -d "query { listProducts { name } }" http://localhost:3000/products
+

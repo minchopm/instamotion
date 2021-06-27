@@ -1,13 +1,14 @@
 'use strict';
 
 const AWS = require('aws-sdk');
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+// const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const dynamodb = require('./dynamodb');
 
 module.exports = (id) => {
     const params = {
         TableName: 'products',
         Key: { id }
     };
-    return dynamoDb.get(params).promise()
+    return dynamodb.get(params).promise()
         .then(r => r.Item);
 };
