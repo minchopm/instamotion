@@ -1,26 +1,39 @@
-service: aws-node-typescript-rest-api-with-dynamodb
+service: aws-node-rest-api-with-dynamodb-and-offline
 
-frameworkVersion: ">=1.1.0 <2.60.0"
+frameworkVersion: ">=1.1.0 <=2.50.0"
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
+custom:
+  dynamodb:
+    stages:
+      - dev
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+    # Comment if you don't have a DynamoDB running locally
+      noStart: true
+    migration:
+      dir: offline/migrations
 
 provider:
   name: aws
   runtime: nodejs12.x
-  region: eu-west-2
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
-  iam:
-    role:
-      name: custom-role-name
-      statements:
-        - Effect: Allow
-          Action:
-            - dynamodb:Query
-            - dynamodb:Scan
-            - dynamodb:GetItem
-            - dynamodb:PutItem
-            - dynamodb:UpdateItem
-            - dynamodb:DeleteItem
-          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
 
 functions:
   create:
@@ -38,7 +51,7 @@ functions:
           path: todos
           method: get
           cors: true
-        
+
   get:
     handler: todos/get.get
     events:
@@ -46,7 +59,7 @@ functions:
           path: todos/{id}
           method: get
           cors: true
-        
+
   update:
     handler: todos/update.update
     events:
@@ -55,11 +68,19 @@ functions:
           method: put
           cors: true
 
+  delete:
+    handler: todos/delete.delete
+    events:
+      - http:
+          path: todos/{id}
+          method: delete
+          cors: true
+
 resources:
   Resources:
     TodosDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
-      DeletionPolicy: Delete
+      DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
           -
@@ -69,7 +90,5 @@ resources:
           -
             AttributeName: id
             KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+        BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
