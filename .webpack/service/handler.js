@@ -164,7 +164,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const createVehicle = data => {
-  console.log(data);
   const params = {
     TableName: process.env.DYNAMODB_TABLE,
     Item: {
