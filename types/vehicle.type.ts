@@ -1,7 +1,7 @@
 import {
     GraphQLEnumType,
 } from 'graphql';
-const VehicleTypeEnum = new GraphQLEnumType({
+const VehicleEnumType = new GraphQLEnumType({
     name: 'VehicleType',
     values: {
         CABRIOLET: {
@@ -30,4 +30,4 @@ const VehicleTypeEnum = new GraphQLEnumType({
         }
     },
 });
-export default VehicleTypeEnum
+export default VehicleEnumType;
