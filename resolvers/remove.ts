@@ -4,7 +4,7 @@ import {dynamodb} from "../dynamodb";
 
 export const removeVehicle = (id) => {
     const params = {
-        TableName: 'vehicles',
+        TableName: process.env.DYNAMODB_TABLE,
         Key: { id }
     };
     return dynamodb.delete(params).promise()

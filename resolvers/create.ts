@@ -5,7 +5,7 @@ import * as uuid from "uuid";
 
 export const addVehicles =  (data) => {
     const params = {
-        TableName: 'vehicles',
+        TableName: process.env.DYNAMODB_TABLE,
         Item: {
             name: data.name,
             quantity: data.quantity,
