@@ -13,11 +13,13 @@ describe('method', () => {
             mileage: 10000,
             fuel_type: "PETROL",
             vehicle_type: "SUV",
-            vehicle_color: "BLACK"
+            vehicle_color: "BLACK",
+            created_at: Date.now(),
+            updated_at: null
         };
     
         await dynamodb
-        .put({TableName: process.env.DYNAMODB_TABLE, Item: {vehicle}})
+        .put({TableName: 'vehicles', Item: {vehicle}})
         .promise()      
         done();
 
