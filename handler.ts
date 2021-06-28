@@ -3,7 +3,7 @@
 import { graphql } from 'graphql';
 import {schema} from "./schema";
 
-module.exports.queryVehicles = (event, context, callback) => {
+export const queryVehicles = (event, context, callback) => {
     graphql(schema, event.body)
         .then(result => callback(null, {statusCode: 200, body: JSON.stringify(result)}))
         .catch(callback);
