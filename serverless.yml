@@ -2,7 +2,13 @@ service: graphql-lambda
 
 frameworkVersion: ">=1.1.0 <=2.50.0"
 
+# Use the serverless-webpack plugin to transpile ES6
+package:
+  individually: true
+
+# Use the serverless-webpack plugin to transpile ES6
 plugins:
+  - serverless-bundle
   - serverless-dynamodb-local
   - serverless-offline
 
@@ -34,41 +40,20 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-#        Resource:
-#          Fn::Join:
-#            - ""
-#            - - "arn:aws:dynamodb:*:*:table/"
-#              - Ref: ProductsDynamoDbTable
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
 
 functions:
-  queryProducts:
-    handler: handler.queryProducts
+  queryVehicles:
+    handler: handler.queryVehicles
     events:
       - http:
-          path: products
+          path: vehicles
           method: post
           cors: true
 
-#resources:
-#  Resources:
-#    ProductsDynamoDbTable:
-#      Type: AWS::DynamoDB::Table
-#      Properties:
-#        TableName: products
-#        AttributeDefinitions:
-#          - AttributeName: id
-#            AttributeType: S
-#        KeySchema:
-#          - AttributeName: id
-#            KeyType: HASH
-#        ProvisionedThroughput:
-#          ReadCapacityUnits: 1
-#          WriteCapacityUnits: 1
-
 resources:
   Resources:
-    ProductsDynamoDbTable:
+    VehiclesDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
       Properties:

@@ -1,13 +1,11 @@
 'use strict';
 
-const AWS = require('aws-sdk');
-// const dynamoDb = new AWS.DynamoDB.DocumentClient();
-const dynamodb = require('./dynamodb');
-const uuid = require('uuid');
+import {dynamodb} from "../dynamodb";
+import uuid = require("uuid");
 
-module.exports = (data) => {
+export const addVehicles =  (data) => {
     const params = {
-        TableName: 'products',
+        TableName: 'vehicles',
         Item: {
             name: data.name,
             quantity: data.quantity,

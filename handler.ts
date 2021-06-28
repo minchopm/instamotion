@@ -1,8 +1,9 @@
 'use strict';
-const { graphql } = require('graphql');
-const schema = require('./schema');
 
-module.exports.queryProducts = (event, context, callback) => {
+import { graphql } from 'graphql';
+import {schema} from "./schema";
+
+module.exports.queryVehicles = (event, context, callback) => {
     graphql(schema, event.body)
         .then(result => callback(null, {statusCode: 200, body: JSON.stringify(result)}))
         .catch(callback);

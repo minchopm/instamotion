@@ -1,6 +1,6 @@
 'use strict';
 
-const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+import {DynamoDB} from 'aws-sdk';
 
 let options = {};
 
@@ -14,6 +14,6 @@ if (process.env.IS_OFFLINE) {
   };
 }
 
-const client = new AWS.DynamoDB.DocumentClient(options);
+const dynamodb = new DynamoDB.DocumentClient(options);
 
-module.exports = client;
+export {dynamodb}
