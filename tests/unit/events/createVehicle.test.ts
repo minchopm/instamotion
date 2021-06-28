@@ -17,12 +17,12 @@ describe('method', () => {
         };
     
         await dynamodb
-          .put({TableName: 'vehicles', Item: {vehicle}})
-          .promise();
-      
+        .put({TableName: process.env.DYNAMODB_TABLE, Item: {vehicle}})
+        .promise()      
+        done();
+
         const {Item} = await dynamodb.get({TableName: 'vehicles', Key: {id}}).promise();
       
         expect(Item).toEqual(vehicle);
-        done();
       });
 })
