@@ -102,6 +102,3 @@ curl -X POST "http://localhost:3000/products" -H "Content-Type: application/json
 
 curl -XPOST -H "Content-Type:application/graphql"  -d "query { listVehicles { name id quantity } }" http://localhost:3000/dev/vehicles
 curl -X POST -H "Content-Type:application/graphql" -d "mutation {createVehicle(make: \"VW\", model: \"Touareg\", transmission: MANUAL_GEARBOX, mileage: 10000) { id }}" "http://localhost:3000/dev/vehicles"
-
-
-asdd
