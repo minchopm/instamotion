@@ -5,6 +5,9 @@ import {viewVehicle} from "./resolvers/view";
 import {listVehicles} from "./resolvers/list";
 import {removeVehicle} from "./resolvers/remove";
 
+import TransmissionEnum from "./types/transmission.type";
+import FuelEnumType from "./types/fuel.type";
+
 import {
   GraphQLBoolean,
   GraphQLInt,
@@ -12,7 +15,8 @@ import {
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLSchema,
-  GraphQLString
+  GraphQLString,
+  GraphQLEnumType
 } from 'graphql';
 
 const vehicleType = new GraphQLObjectType({
@@ -49,8 +53,11 @@ export const schema = new GraphQLSchema({
     fields: {
       createVehicle: {
         args: {
-          name: {type: new GraphQLNonNull(GraphQLString)},
-          quantity: {type: new GraphQLNonNull(GraphQLInt)}
+          make: {type: new GraphQLNonNull(GraphQLString)},
+          model: {type: new GraphQLNonNull(GraphQLString)},
+          transmission : {type: new GraphQLNonNull(TransmissionEnum)},
+          mileage: {type: new GraphQLNonNull(GraphQLInt)},
+          fuel_type: {type: new GraphQLNonNull(FuelEnumType)},
         },
         type: vehicleType,
         resolve: (parent, args) => addVehicles(args)
