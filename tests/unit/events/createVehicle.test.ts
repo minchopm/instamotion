@@ -1,6 +1,21 @@
 import * as uuid from "uuid";
 import {dynamodb} from "../../../dynamodb";
 
+const { DocumentClient } = require('aws-sdk/clients/dynamodb');
+
+const isTest = process.env.JEST_WORKER_ID;
+const config = {
+  convertEmptyValues: true,
+  ...(isTest && {
+    endpoint: 'localhost:8000',
+    sslEnabled: false,
+    region: 'local-env',
+  }),
+};
+
+const ddb = new DocumentClient(config);
+
+
 describe('method', () => {
 
     it('should insert vehicle into table', async (done) => {
@@ -18,12 +33,12 @@ describe('method', () => {
             updated_at: null
         };
     
-        await dynamodb
-        .put({TableName: 'vehicles', Item: {vehicle}})
+        await ddb
+        .put({TableName: 'vehicles', Item: vehicle})
         .promise()      
         done();
 
-        const {Item} = await dynamodb.get({TableName: 'vehicles', Key: {id}}).promise();
+        const {Item} = await ddb.get({TableName: 'vehicles', Key: {id}}).promise();
       
         expect(Item).toEqual(vehicle);
       });
