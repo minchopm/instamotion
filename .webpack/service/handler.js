@@ -175,7 +175,8 @@ const createVehicle = data => {
       vehicle_type: data.vehicle_type,
       vehicle_color: data.vehicle_color,
       id: uuid__WEBPACK_IMPORTED_MODULE_1__["v1"](),
-      addedAt: Date.now()
+      created_at: Date.now(),
+      updated_at: Date.now()
     }
   };
   return _dynamodb__WEBPACK_IMPORTED_MODULE_0__["dynamodb"].put(params).promise().then(result => params.Item);

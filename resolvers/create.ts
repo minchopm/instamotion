@@ -15,7 +15,8 @@ export const createVehicle =  (data) => {
             vehicle_type: data.vehicle_type,
             vehicle_color: data.vehicle_color,
             id: uuid.v1(),
-            addedAt: Date.now(),
+            created_at: Date.now(),
+            updated_at: Date.now()
         }
     };
     return dynamodb.put(params).promise()
