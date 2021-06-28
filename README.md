@@ -1,31 +1,12 @@
-<!--
-title: 'AWS Serverless REST API with DynamoDB and offline support example in NodeJS'
-description: 'This example demonstrates how to run a service locally, using the ''serverless-offline'' plugin. It provides a REST API to manage Todos stored in DynamoDB.'
-layout: Doc
-framework: v1
-platform: AWS
-language: nodeJS
-authorLink: 'https://github.com/adambrgmn'
-authorName: 'Adam Bergman'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13746650?v=4&s=140'
--->
-# Serverless REST API with DynamoDB and offline support
-
-This example demonstrates how to run a service locally, using the
-[serverless-offline](https://github.com/dherault/serverless-offline) plugin. It
-provides a REST API to manage Todos stored in a DynamoDB, similar to the
-[aws-node-rest-api-with-dynamodb](https://github.com/serverless/examples/tree/master/aws-node-rest-api-with-dynamodb)
-example. A local DynamoDB instance is provided by the
-[serverless-dynamodb-local](https://github.com/99xt/serverless-dynamodb-local)
-plugin.
-
-## Use-case
-
-Test your service locally, without having to deploy it first.
-
 ## Setup
 
 ```bash
+OS
+install docker v.3.1.1
+npm install - g serverless
+npm install -g typescript
+
+inside the project
 npm install
 serverless dynamodb install (or to use a persistent docker dynamodb instead, open a new terminal: cd ./dynamodb && docker-compose up -d)
 serverless offline start
@@ -40,7 +21,7 @@ serverless offline start
 
 ## Usage
 
-You can create, retrieve, update, or delete todos with the following commands:
+You can create, retrieve, update, or delete vehicles with the following commands:
 
 ### Create a Vehicle
 
@@ -97,11 +78,3 @@ Example Result:
 # Replace the <id> part with a real id from your vehicles table
 curl -X POST -H "Content-Type:application/graphql" -d "mutation {removeVehicle(id: \"<id>\")}" "http://localhost:3000/dev/vehicles"
 ```
-
-No output
-
-curl -X POST "http://localhost:3000/products" -H "Content-Type: application/json" -d "{\"query\": \"mutation Mutation { name: createProduct(name: \"This is a todo mutation example\") { name quantity } }\"}"
-curl -X POST "http://localhost:3000/products" -H "Content-Type: application/json" -d "query={greeting(name: \"Jeremy\")}"
-
-curl -XPOST -H "Content-Type:application/graphql"  -d "query { listVehicles { name id quantity } }" http://localhost:3000/dev/vehicles
-curl -X POST -H "Content-Type:application/graphql" -d "mutation {createVehicle(make: \"VW\", model: \"Touareg\", transmission: MANUAL_GEARBOX, mileage: 10000) { id }}" "http://localhost:3000/dev/vehicles"

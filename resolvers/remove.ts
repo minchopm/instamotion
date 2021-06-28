@@ -7,6 +7,7 @@ export const removeVehicle = (id) => {
         TableName: process.env.DYNAMODB_TABLE,
         Key: { id }
     };
-    return dynamodb.delete(params).promise()
-      .then(r => true);
+    return dynamodb.delete(params).promise().then(res => {
+        return Object.keys(res).length === 0;
+    })
 };
