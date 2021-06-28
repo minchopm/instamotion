@@ -176,7 +176,7 @@ const createVehicle = data => {
       vehicle_color: data.vehicle_color,
       id: uuid__WEBPACK_IMPORTED_MODULE_1__["v1"](),
       created_at: Date.now(),
-      updated_at: Date.now()
+      updated_at: null
     }
   };
   return _dynamodb__WEBPACK_IMPORTED_MODULE_0__["dynamodb"].put(params).promise().then(result => params.Item);
@@ -230,6 +230,44 @@ const removeVehicle = id => {
 
 /***/ }),
 
+/***/ "./resolvers/update.ts":
+/*!*****************************!*\
+  !*** ./resolvers/update.ts ***!
+  \*****************************/
+/*! exports provided: updateVehicle */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateVehicle", function() { return updateVehicle; });
+/* harmony import */ var _dynamodb__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dynamodb */ "./dynamodb.ts");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! uuid */ "uuid");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(uuid__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+
+const updateVehicle = data => {
+  const params = {
+    TableName: process.env.DYNAMODB_TABLE,
+    Item: {
+      make: data.make,
+      model: data.model,
+      transmission: data.transmission,
+      mileage: data.mileage,
+      fuel_type: data.fuel_type,
+      vehicle_type: data.vehicle_type,
+      vehicle_color: data.vehicle_color,
+      id: data.id,
+      created_at: data.created_at,
+      updated_at: Date.now()
+    }
+  };
+  return _dynamodb__WEBPACK_IMPORTED_MODULE_0__["dynamodb"].put(params).promise().then(result => params.Item);
+};
+
+/***/ }),
+
 /***/ "./resolvers/view.ts":
 /*!***************************!*\
   !*** ./resolvers/view.ts ***!
@@ -270,11 +308,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _resolvers_view__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./resolvers/view */ "./resolvers/view.ts");
 /* harmony import */ var _resolvers_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./resolvers/list */ "./resolvers/list.ts");
 /* harmony import */ var _resolvers_remove__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./resolvers/remove */ "./resolvers/remove.ts");
-/* harmony import */ var _types_transmission_type__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./types/transmission.type */ "./types/transmission.type.ts");
-/* harmony import */ var _types_fuel_type__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./types/fuel.type */ "./types/fuel.type.ts");
-/* harmony import */ var _types_vehicle_type__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./types/vehicle.type */ "./types/vehicle.type.ts");
-/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! graphql */ "graphql");
-/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(graphql__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _resolvers_update__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./resolvers/update */ "./resolvers/update.ts");
+/* harmony import */ var _types_transmission_type__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./types/transmission.type */ "./types/transmission.type.ts");
+/* harmony import */ var _types_fuel_type__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./types/fuel.type */ "./types/fuel.type.ts");
+/* harmony import */ var _types_vehicle_type__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./types/vehicle.type */ "./types/vehicle.type.ts");
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! graphql */ "graphql");
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(graphql__WEBPACK_IMPORTED_MODULE_8__);
 
 
 
@@ -285,47 +324,48 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const vehicleType = new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLObjectType"]({
+
+const vehicleType = new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLObjectType"]({
   name: 'Vehicles',
   fields: {
     id: {
-      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
+      type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLString"])
     },
     make: {
-      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
+      type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLString"])
     },
     model: {
-      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
+      type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLString"])
     },
     transmission: {
-      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](_types_transmission_type__WEBPACK_IMPORTED_MODULE_4__["default"])
+      type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](_types_transmission_type__WEBPACK_IMPORTED_MODULE_5__["default"])
     },
     mileage: {
-      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLInt"])
+      type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLInt"])
     },
     fuel_type: {
-      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](_types_fuel_type__WEBPACK_IMPORTED_MODULE_5__["default"])
+      type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](_types_fuel_type__WEBPACK_IMPORTED_MODULE_6__["default"])
     },
     vehicle_type: {
-      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](_types_vehicle_type__WEBPACK_IMPORTED_MODULE_6__["default"])
+      type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](_types_vehicle_type__WEBPACK_IMPORTED_MODULE_7__["default"])
     },
     vehicle_color: {
-      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
+      type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLString"])
     }
   }
 });
-const schema = new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLSchema"]({
-  query: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLObjectType"]({
+const schema = new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLSchema"]({
+  query: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLObjectType"]({
     name: 'Query',
     fields: {
       listVehicles: {
-        type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLList"](vehicleType),
+        type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLList"](vehicleType),
         resolve: (parent, args) => Object(_resolvers_list__WEBPACK_IMPORTED_MODULE_2__["listVehicles"])()
       },
       viewVehicle: {
         args: {
           id: {
-            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLString"])
           }
         },
         type: vehicleType,
@@ -333,43 +373,70 @@ const schema = new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLSchema"]({
       }
     }
   }),
-  mutation: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLObjectType"]({
+  mutation: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLObjectType"]({
     name: 'Mutation',
     fields: {
       createVehicle: {
         args: {
           make: {
-            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLString"])
           },
           model: {
-            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLString"])
           },
           transmission: {
-            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](_types_transmission_type__WEBPACK_IMPORTED_MODULE_4__["default"])
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](_types_transmission_type__WEBPACK_IMPORTED_MODULE_5__["default"])
           },
           mileage: {
-            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLInt"])
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLInt"])
           },
           fuel_type: {
-            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](_types_fuel_type__WEBPACK_IMPORTED_MODULE_5__["default"])
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](_types_fuel_type__WEBPACK_IMPORTED_MODULE_6__["default"])
           },
           vehicle_type: {
-            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](_types_vehicle_type__WEBPACK_IMPORTED_MODULE_6__["default"])
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](_types_vehicle_type__WEBPACK_IMPORTED_MODULE_7__["default"])
           },
           vehicle_color: {
-            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLString"])
           }
         },
         type: vehicleType,
         resolve: (parent, args) => Object(_resolvers_create__WEBPACK_IMPORTED_MODULE_0__["createVehicle"])(args)
       },
+      updateVehicle: {
+        args: {
+          make: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLString"])
+          },
+          model: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLString"])
+          },
+          transmission: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](_types_transmission_type__WEBPACK_IMPORTED_MODULE_5__["default"])
+          },
+          mileage: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLInt"])
+          },
+          fuel_type: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](_types_fuel_type__WEBPACK_IMPORTED_MODULE_6__["default"])
+          },
+          vehicle_type: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](_types_vehicle_type__WEBPACK_IMPORTED_MODULE_7__["default"])
+          },
+          vehicle_color: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLString"])
+          }
+        },
+        type: vehicleType,
+        resolve: (parent, args) => Object(_resolvers_update__WEBPACK_IMPORTED_MODULE_4__["updateVehicle"])(args)
+      },
       removeVehicle: {
         args: {
           id: {
-            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
+            type: new graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLString"])
           }
         },
-        type: graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLBoolean"],
+        type: graphql__WEBPACK_IMPORTED_MODULE_8__["GraphQLBoolean"],
         resolve: (parent, args) => Object(_resolvers_remove__WEBPACK_IMPORTED_MODULE_3__["removeVehicle"])(args.id)
       }
     }

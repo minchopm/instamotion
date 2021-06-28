@@ -3,7 +3,7 @@
 import {dynamodb} from "../dynamodb";
 import * as uuid from "uuid";
 
-export const createVehicle =  (data) => {
+export const updateVehicle =  (data) => {
     const params = {
         TableName: process.env.DYNAMODB_TABLE,
         Item: {
@@ -14,9 +14,9 @@ export const createVehicle =  (data) => {
             fuel_type: data.fuel_type,
             vehicle_type: data.vehicle_type,
             vehicle_color: data.vehicle_color,
-            id: uuid.v1(),
-            created_at: Date.now(),
-            updated_at: null
+            id: data.id,
+            created_at: data.created_at,
+            updated_at: Date.now()
         }
     };
     return dynamodb.put(params).promise()
