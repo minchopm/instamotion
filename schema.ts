@@ -71,13 +71,14 @@ export const schema = new GraphQLSchema({
       },
       updateVehicle: {
         args: {
+          id: {type: new GraphQLNonNull(GraphQLString)},
           make: {type: new GraphQLNonNull(GraphQLString)},
           model: {type: new GraphQLNonNull(GraphQLString)},
           transmission : {type: new GraphQLNonNull(TransmissionEnum)},
           mileage: {type: new GraphQLNonNull(GraphQLInt)},
           fuel_type: {type: new GraphQLNonNull(FuelEnumType)},
           vehicle_type: {type: new GraphQLNonNull(VehicleEnumType)},
-          vehicle_color: {type: new GraphQLNonNull(GraphQLString)},
+          vehicle_color: {type: new GraphQLNonNull(GraphQLString)}
         },
         type: vehicleType,
         resolve: (parent, args) => updateVehicle(args)
