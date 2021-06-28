@@ -8,4 +8,5 @@ export const removeVehicle = (id) => {
         Key: { id }
     };
     return dynamodb.delete(params).promise()
+      .then(r => true);
 };

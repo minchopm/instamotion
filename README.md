@@ -42,57 +42,60 @@ serverless offline start
 
 You can create, retrieve, update, or delete todos with the following commands:
 
-### Create a Todo
+### Create a Vehicle
 
 ```bash
-curl -X POST -H "Content-Type:application/json" http://localhost:3000/todos --data '{ "text": "Learn Serverless" }'
+curl -X POST -H "Content-Type:application/graphql" -d "mutation {createVehicle(make: \"VW\", model: \"Golf\", transmission: MANUAL_GEARBOX, mileage: 10000, fuel_type: PETROL, vehicle_type: SUV, vehicle_color: \"BLACK\") { id make model transmission mileage fuel_type vehicle_type vehicle_color }}" "http://localhost:3000/dev/vehicles"
 ```
 
 Example Result:
 ```bash
-{"text":"Learn Serverless","id":"ee6490d0-aa11e6-9ede-afdfa051af86","createdAt":1479138570824,"checked":false,"updatedAt":1479138570824}%
+{"data":{"createVehicle":{"id":"de741d00-d810-11eb-9ced-f5458d80f4f6","make":"VW","model":"Golf","transmission":"MANUAL_GEARBOX","mileage":10000,"fuel_type":"PETROL","vehicle_type":"SUV","vehicle_color":"BLACK"}}}%
 ```
 
-### List all Todos
+### List all Vehicles
 
 ```bash
-curl -H "Content-Type:application/json" http://localhost:3000/todos
+curl -X POST -H "Content-Type:application/graphql" -d "query { listVehicles { id make model transmission mileage fuel_type vehicle_type vehicle_color } }" "http://localhost:3000/dev/vehicles"
 ```
 
 Example output:
 ```bash
-[{"text":"Deploy my first service","id":"ac90feaa11e6-9ede-afdfa051af86","checked":true,"updatedAt":1479139961304},{"text":"Learn Serverless","id":"206793aa11e6-9ede-afdfa051af86","createdAt":1479139943241,"checked":false,"updatedAt":1479139943241}]%
+{"data":{"listVehicles":[{"id":"2a342640-d80c-11eb-b8d2-153cb284dce0","make":"VW","model":"Touareg","transmission":"MANUAL_GEARBOX","mileage":10000,"fuel_type":"PETROL","vehicle_type":"SUV","vehicle_color":"BLACK"},
+{"id":"de741d00-d810-11eb-9ced-f5458d80f4f6","make":"VW","model":"Golf","transmission":"MANUAL_GEARBOX","mileage":10000,"fuel_type":"PETROL","vehicle_type":"SUV","vehicle_color":"BLACK"}]}}%
 ```
 
-### Get one Todo
+### Get one Vehicle
 
 ```bash
 # Replace the <id> part with a real id from your todos table
-curl -H "Content-Type:application/json" http://localhost:3000/todos/<id>
+curl -X POST -H "Content-Type:application/graphql" -d "query {viewVehicle(id: \"<id>\") { id make model transmission mileage fuel_type vehicle_type vehicle_color }}" "http://localhost:3000/dev/vehicles"
 ```
 
 Example Result:
 ```bash
-{"text":"Learn Serverless","id":"ee6490d0-aa11e6-9ede-afdfa051af86","createdAt":1479138570824,"checked":false,"updatedAt":1479138570824}%
+{"data":{"viewVehicle":{"id":"de741d00-d810-11eb-9ced-f5458d80f4f6","make":"VW","model":"Golf","transmission":"MANUAL_GEARBOX","mileage":10000,"fuel_type":"PETROL","vehicle_type":"SUV","vehicle_color":"BLACK"}}}%
 ```
 
-### Update a Todo
+### Update a Vehicle
 
 ```bash
-# Replace the <id> part with a real id from your todos table
-curl -X PUT -H "Content-Type:application/json" http://localhost:3000/todos/<id> --data '{ "text": "Learn Serverless", "checked": true }'
+# Replace the <id> part with a real id from your vehicles table
+curl -X POST -H "Content-Type:application/graphql" -d "mutation {updateVehicle(id: \"<id>\", make: \"VW\", model: \"Touareg\", transmission: MANUAL_GEARBOX, mileage: 10000, fuel_type: PETROL, vehicle_type: SUV, vehicle_color: \"BLACK\") { id make model transmission mileage fuel_type vehicle_type vehicle_color }}" "http://localhost:3000/dev/vehicles"
 ```
 
 Example Result:
 ```bash
-{"text":"Learn Serverless","id":"ee6490d0-aa11e6-9ede-afdfa051af86","createdAt":1479138570824,"checked":true,"updatedAt":1479138570824}%
+{"data":{"updateVehicle":{"id":"2a342640-d80c-11eb-b8d2-153cb284dce0","make":"VW","model":"Touareg","transmission":"MANUAL_GEARBOX","mileage":10000,"fuel_type":"PETROL","vehicle_type":"SUV","vehicle_color":
+"BLACK"}}}
+%
 ```
 
-### Delete a Todo
+### Delete a Vehicle
 
 ```bash
-# Replace the <id> part with a real id from your todos table
-curl -X DELETE -H "Content-Type:application/json" http://localhost:3000/todos/<id>
+# Replace the <id> part with a real id from your vehicles table
+curl -X POST -H "Content-Type:application/graphql" -d "mutation {removeVehicle(id: \"<id>\")}" "http://localhost:3000/dev/vehicles"
 ```
 
 No output
