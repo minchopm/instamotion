@@ -1,16 +1,23 @@
-import { APIGatewayProxyEvent } from "aws-lambda";
-import {queryVehicles} from "../../lambda/handler";
+import * as mod from "./../../lambda/handler";
 
-describe('Unit test for app handler', function () {
-  it('verifies successful response', async () => {
-    const event: APIGatewayProxyEvent = {
-      queryStringParameters: {
-        a: "1"
-      }
-    } as any
-    const result = await queryVehicles(event)
+import * as jestPlugin from "serverless-jest-plugin";
+const lambdaWrapper = jestPlugin.lambdaWrapper;
+const wrapped = lambdaWrapper.wrap(mod, { handler: "queryVehicles" });
 
-    expect(result.statusCode).toEqual(200);
-    expect(result.body).toEqual(`Queries: ${JSON.stringify(event.queryStringParameters)}`);
+describe("λ Function - queryVehicles", () => {
+  // beforeAll((done) => {
+  //   //lambdaWrapper.init(liveFunction); // Run the deployed lambda
+
+  //   done();
+  // });
+
+  it("Invoke / Initiate function test", () => {
+    return wrapped.run({}).then((response) => {
+      expect(response).not.toBe(null);
+      expect(response).toHaveProperty("statusCode");
+      expect(response).toHaveProperty("body");
+      expect(response.statusCode).toBe(200);
+    });
   });
 });
+
