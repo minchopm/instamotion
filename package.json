@@ -12,6 +12,7 @@
     "compile": "tsc"
   },
   "dependencies": {
+    "@shelf/jest-dynamodb": "^1.8.1",
     "aws-lambda": "^0.1.2",
     "graphql-yoga": "^1.18.3",
     "node": "^12.3.1",

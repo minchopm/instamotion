@@ -1,5 +1,5 @@
 module.exports = {
-  preset: 'ts-jest',
+  preset: "@shelf/jest-dynamodb",
   testEnvironment: 'node',
   collectCoverageFrom: [
     "**/*.ts",
