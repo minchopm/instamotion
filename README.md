@@ -69,7 +69,6 @@ Example Result:
 ```bash
 {"data":{"updateVehicle":{"id":"2a342640-d80c-11eb-b8d2-153cb284dce0","make":"VW","model":"Touareg","transmission":"MANUAL_GEARBOX","mileage":10000,"fuel_type":"PETROL","vehicle_type":"SUV","vehicle_color":
 "BLACK"}}}
-%
 ```
 
 ### Delete a Vehicle
@@ -77,4 +76,9 @@ Example Result:
 ```bash
 # Replace the <id> part with a real id from your vehicles table
 curl -X POST -H "Content-Type:application/graphql" -d "mutation {removeVehicle(id: \"<id>\")}" "http://localhost:3000/dev/vehicles"
+```
+
+Example Result:
+```bash
+{"data":{"removeVehicle":true}}
 ```
