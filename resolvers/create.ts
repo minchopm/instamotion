@@ -1,7 +1,7 @@
 'use strict';
 
 import {dynamodb} from "../dynamodb";
-import uuid = require("uuid");
+import * as uuid from "uuid";
 
 export const addVehicles =  (data) => {
     const params = {

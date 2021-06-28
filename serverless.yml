@@ -3,16 +3,14 @@ service: graphql-lambda
 frameworkVersion: ">=1.1.0 <=2.50.0"
 
 # Use the serverless-webpack plugin to transpile ES6
-package:
-  individually: true
-
-# Use the serverless-webpack plugin to transpile ES6
 plugins:
-  - serverless-bundle
+  - serverless-webpack
   - serverless-dynamodb-local
   - serverless-offline
 
 custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
   dynamodb:
     stages:
       - dev
