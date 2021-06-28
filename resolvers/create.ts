@@ -3,7 +3,7 @@
 import {dynamodb} from "../dynamodb";
 import * as uuid from "uuid";
 
-export const addVehicles =  (data) => {
+export const createVehicle =  (data) => {
     console.log(data)
     const params = {
         TableName: process.env.DYNAMODB_TABLE,

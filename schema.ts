@@ -1,6 +1,6 @@
 'use strict';
 
-import {addVehicles} from "./resolvers/create";
+import {createVehicle} from "./resolvers/create";
 import {viewVehicle} from "./resolvers/view";
 import {listVehicles} from "./resolvers/list";
 import {removeVehicle} from "./resolvers/remove";
@@ -66,7 +66,7 @@ export const schema = new GraphQLSchema({
           vehicle_color: {type: new GraphQLNonNull(GraphQLString)},
         },
         type: vehicleType,
-        resolve: (parent, args) => addVehicles(args)
+        resolve: (parent, args) => createVehicle(args)
       },
       removeVehicle: {
         args: {

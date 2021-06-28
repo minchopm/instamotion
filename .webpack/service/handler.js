@@ -124,61 +124,25 @@ const dynamodb = new aws_sdk__WEBPACK_IMPORTED_MODULE_0__["DynamoDB"].DocumentCl
 /*!********************!*\
   !*** ./handler.ts ***!
   \********************/
-/*! no exports provided */
+/*! exports provided: queryVehicles */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graphql */ "graphql");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "queryVehicles", function() { return queryVehicles; });
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graphql */ "graphql");
 /* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(graphql__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _schema__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./schema */ "./schema.ts");
 
 
 
 
-
-module.exports.queryVehicles = (event, context, callback) => {
+const queryVehicles = (event, context, callback) => {
   Object(graphql__WEBPACK_IMPORTED_MODULE_0__["graphql"])(_schema__WEBPACK_IMPORTED_MODULE_1__["schema"], event.body).then(result => callback(null, {
     statusCode: 200,
     body: JSON.stringify(result)
   })).catch(callback);
 };
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
-
-/***/ }),
-
-/***/ "./node_modules/webpack/buildin/harmony-module.js":
-/*!*******************************************!*\
-  !*** (webpack)/buildin/harmony-module.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function(originalModule) {
-	if (!originalModule.webpackPolyfill) {
-		var module = Object.create(originalModule);
-		// module.parent = undefined by default
-		if (!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		Object.defineProperty(module, "exports", {
-			enumerable: true
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
 
 /***/ }),
 
@@ -186,12 +150,12 @@ module.exports = function(originalModule) {
 /*!*****************************!*\
   !*** ./resolvers/create.ts ***!
   \*****************************/
-/*! exports provided: addVehicles */
+/*! exports provided: createVehicle */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addVehicles", function() { return addVehicles; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createVehicle", function() { return createVehicle; });
 /* harmony import */ var _dynamodb__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dynamodb */ "./dynamodb.ts");
 /* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! uuid */ "uuid");
 /* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(uuid__WEBPACK_IMPORTED_MODULE_1__);
@@ -199,12 +163,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const addVehicles = data => {
+const createVehicle = data => {
+  console.log(data);
   const params = {
-    TableName: 'vehicles',
+    TableName: process.env.DYNAMODB_TABLE,
     Item: {
-      name: data.name,
-      quantity: data.quantity,
+      make: data.make,
+      model: data.model,
+      transmission: data.transmission,
+      mileage: data.mileage,
+      fuel_type: data.fuel_type,
+      vehicle_type: data.vehicle_type,
+      vehicle_color: data.vehicle_color,
       id: uuid__WEBPACK_IMPORTED_MODULE_1__["v1"](),
       addedAt: Date.now()
     }
@@ -229,7 +199,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const listVehicles = () => _dynamodb__WEBPACK_IMPORTED_MODULE_0__["dynamodb"].scan({
-  TableName: 'vehicles'
+  TableName: process.env.DYNAMODB_TABLE
 }).promise().then(r => r.Items);
 
 /***/ }),
@@ -250,7 +220,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const removeVehicle = id => {
   const params = {
-    TableName: 'vehicles',
+    TableName: process.env.DYNAMODB_TABLE,
     Key: {
       id
     }
@@ -276,7 +246,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const viewVehicle = id => {
   const params = {
-    TableName: 'vehicles',
+    TableName: process.env.DYNAMODB_TABLE,
     Key: {
       id
     }
@@ -300,8 +270,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _resolvers_view__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./resolvers/view */ "./resolvers/view.ts");
 /* harmony import */ var _resolvers_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./resolvers/list */ "./resolvers/list.ts");
 /* harmony import */ var _resolvers_remove__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./resolvers/remove */ "./resolvers/remove.ts");
-/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! graphql */ "graphql");
-/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(graphql__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _types_transmission_type__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./types/transmission.type */ "./types/transmission.type.ts");
+/* harmony import */ var _types_fuel_type__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./types/fuel.type */ "./types/fuel.type.ts");
+/* harmony import */ var _types_vehicle_type__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./types/vehicle.type */ "./types/vehicle.type.ts");
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! graphql */ "graphql");
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(graphql__WEBPACK_IMPORTED_MODULE_7__);
 
 
 
@@ -309,35 +282,50 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const vehicleType = new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLObjectType"]({
+
+
+
+const vehicleType = new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLObjectType"]({
   name: 'Vehicles',
   fields: {
     id: {
-      type: new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLString"])
+      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
     },
-    name: {
-      type: new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLString"])
+    make: {
+      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
     },
-    quantity: {
-      type: new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLInt"])
+    model: {
+      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
     },
-    addedAt: {
-      type: new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLString"])
+    transmission: {
+      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](_types_transmission_type__WEBPACK_IMPORTED_MODULE_4__["default"])
+    },
+    mileage: {
+      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLInt"])
+    },
+    fuel_type: {
+      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](_types_fuel_type__WEBPACK_IMPORTED_MODULE_5__["default"])
+    },
+    vehicle_type: {
+      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](_types_vehicle_type__WEBPACK_IMPORTED_MODULE_6__["default"])
+    },
+    vehicle_color: {
+      type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
     }
   }
 });
-const schema = new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLSchema"]({
-  query: new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLObjectType"]({
+const schema = new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLSchema"]({
+  query: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLObjectType"]({
     name: 'Query',
     fields: {
       listVehicles: {
-        type: new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLList"](vehicleType),
+        type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLList"](vehicleType),
         resolve: (parent, args) => Object(_resolvers_list__WEBPACK_IMPORTED_MODULE_2__["listVehicles"])()
       },
       viewVehicle: {
         args: {
           id: {
-            type: new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLString"])
+            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
           }
         },
         type: vehicleType,
@@ -345,33 +333,159 @@ const schema = new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLSchema"]({
       }
     }
   }),
-  mutation: new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLObjectType"]({
+  mutation: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLObjectType"]({
     name: 'Mutation',
     fields: {
       createVehicle: {
         args: {
-          name: {
-            type: new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLString"])
+          make: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
           },
-          quantity: {
-            type: new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLInt"])
+          model: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
+          },
+          transmission: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](_types_transmission_type__WEBPACK_IMPORTED_MODULE_4__["default"])
+          },
+          mileage: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLInt"])
+          },
+          fuel_type: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](_types_fuel_type__WEBPACK_IMPORTED_MODULE_5__["default"])
+          },
+          vehicle_type: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](_types_vehicle_type__WEBPACK_IMPORTED_MODULE_6__["default"])
+          },
+          vehicle_color: {
+            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
           }
         },
         type: vehicleType,
-        resolve: (parent, args) => Object(_resolvers_create__WEBPACK_IMPORTED_MODULE_0__["addVehicles"])(args)
+        resolve: (parent, args) => Object(_resolvers_create__WEBPACK_IMPORTED_MODULE_0__["createVehicle"])(args)
       },
       removeVehicle: {
         args: {
           id: {
-            type: new graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLString"])
+            type: new graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLNonNull"](graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLString"])
           }
         },
-        type: graphql__WEBPACK_IMPORTED_MODULE_4__["GraphQLBoolean"],
+        type: graphql__WEBPACK_IMPORTED_MODULE_7__["GraphQLBoolean"],
         resolve: (parent, args) => Object(_resolvers_remove__WEBPACK_IMPORTED_MODULE_3__["removeVehicle"])(args.id)
       }
     }
   })
 });
+
+/***/ }),
+
+/***/ "./types/fuel.type.ts":
+/*!****************************!*\
+  !*** ./types/fuel.type.ts ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graphql */ "graphql");
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(graphql__WEBPACK_IMPORTED_MODULE_0__);
+
+const FuelEnumType = new graphql__WEBPACK_IMPORTED_MODULE_0__["GraphQLEnumType"]({
+  name: 'FuelEnum',
+  values: {
+    PETROL: {
+      value: 0
+    },
+    DEISEL: {
+      value: 1
+    },
+    ELECTRIC: {
+      value: 2
+    },
+    LPG: {
+      value: 3
+    },
+    HYBRID: {
+      value: 4
+    }
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (FuelEnumType);
+
+/***/ }),
+
+/***/ "./types/transmission.type.ts":
+/*!************************************!*\
+  !*** ./types/transmission.type.ts ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graphql */ "graphql");
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(graphql__WEBPACK_IMPORTED_MODULE_0__);
+
+const TransmissionEnumType = new graphql__WEBPACK_IMPORTED_MODULE_0__["GraphQLEnumType"]({
+  name: 'TransmissionEnum',
+  values: {
+    MANUAL_GEARBOX: {
+      value: 0
+    },
+    SEMI_AUTOMATIC: {
+      value: 1
+    },
+    AUTOMATIC_TRANSMISSION: {
+      value: 2
+    }
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (TransmissionEnumType);
+
+/***/ }),
+
+/***/ "./types/vehicle.type.ts":
+/*!*******************************!*\
+  !*** ./types/vehicle.type.ts ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graphql */ "graphql");
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(graphql__WEBPACK_IMPORTED_MODULE_0__);
+
+const VehicleEnumType = new graphql__WEBPACK_IMPORTED_MODULE_0__["GraphQLEnumType"]({
+  name: 'VehicleType',
+  values: {
+    CABRIOLET: {
+      value: 0
+    },
+    COUPE: {
+      value: 1
+    },
+    ESTATE: {
+      value: 2
+    },
+    SUV: {
+      value: 3
+    },
+    SALOON: {
+      value: 4
+    },
+    VAN: {
+      value: 5
+    },
+    SMALL: {
+      value: 6
+    },
+    OTHER: {
+      value: 7
+    }
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (VehicleEnumType);
 
 /***/ }),
 
